@@ -76,13 +76,15 @@ Then, use the **train.py** with desired parameters to train the model on your da
 
 ***Example Usage***
 
-    python train.py --image_dataset_path ./datasets/Images --image_dataset_format png --mask_dataset_path ./datasets/Masks --mask_dataset_format png --height 256 --width 256 --nb_classes 13 --epochs 100 --batch_size 32 --validation_split 0.2
+    python train.py --image_dataset_path ./datasets/Images --image_dataset_format png --mask_dataset_path ./datasets/Masks --mask_dataset_format png --height 256 --width 256 --nb_classes 13 --epochs 100 --batch_size 32 --validation_split 0.2 --callbacks True --patience 10
 
 ***Sample Training History***
 
 A sample figure showing model performance in the training process;
 
 ![plot_metrics](https://user-images.githubusercontent.com/99184963/223560057-65dbfb8c-5e47-4537-9cc8-3b84114b0bc1.png)
+
+* As you see, the model training stopped early. It is because the 'callback' argument was set to True, and the model training process was monitored every 10 epoch because 'patience' argument was set to 10. So when there was no any improvement, early stopping worked.
 
 ### *2.4. Predicting New Masked Images*
 
@@ -141,6 +143,6 @@ If you use this repository in your work, please consider citing us as the follow
     @misc{ululord2023ululord2023road-surface-segmentation-using-unet-model-tensorflow,
 	      author = {Fatih Demir},
           title = {Road Surface Segmentation using UNet Model [Tensorflow]},
-          date = {2023-03-07},
+          date = {2023-03-08},
           url = {https://github.com/UluLord/Road-Surface-Segmentation-using-UNet-Model-Tensorflow-}
           }
