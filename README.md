@@ -8,7 +8,23 @@ This repository contains code for segmenting road surfaces in images using the U
 **NOTE:** You can use the repository not only for this dataset, but also for any dataset you want. You are very free to arrange hyperparameters of the UNet model to improve your model for your project.
 
 ## **1. Dataset**
-The dataset contains 701 frames. However, it is not included in this repository, but you can download from [here.](https://lapix.ufsc.br/pesquisas/projeto-veiculo-autonomo/datasets/?lang=ent)
+The dataset contains 701 frames and 13 classes;
+
+* Background
+* Asphalt Road
+* Paved Road
+* Unpaved Road
+* Road Marking
+* Speed-Bump
+* Cats-Eye
+* Storm-Drain
+* Manhole Cover
+* Patchs
+* Water-Puddle
+* Pothole
+* Cracks
+
+However, the dataset is not included in this repository, but you can download from [here.](https://lapix.ufsc.br/pesquisas/projeto-veiculo-autonomo/datasets/?lang=en)
 
 ## **2. Usage**
 
@@ -47,7 +63,7 @@ Then, use the **train.py** with desired parameters to train the model on your da
 ***Parameters***
   * **image_dataset_path:** Path to the image dataset. Required.
   * **image_dataset_format:** The image format in the image dataset (choose one of those: jpeg, jpg, png, bmp or others). Default is 'png'.
-  * **mask_dataset_path:** Path to the mask dataset. Required.
+  * **mask_dataset_path:** Path to the mask dataset. Please note that the mask dataset should be in binary format. Required.
   * **mask_dataset_format:** The image format in the masked image dataset (choose one of those: jpeg, jpg, png, bmp or others). Default is 'png'.
   * **height:** Height of image. Default is 256.
   * **width:** Width of image. Default is 256.
@@ -74,9 +90,11 @@ Then, use the **train.py** with desired parameters to train the model on your da
   * **mode:** Whether the monitor should be minimized or maximized during training, if 'callbacks' is True. Default is 'min'. 
   * **patience:** Number of epochs to wait before stopping training if no improvement is seen in the monitor, if 'callbacks' is True. Default is 5.
 
+**IMPORTANT:** If you want to use a dataset that has more or less than 13 classes, please consider changing the predicted mask color types specified in the 'change_colors()' function of the 'prediction_display.py' file. The function is only suitable for a 13-class dataset as such. Otherwise, you may encounter an error.
+
 ***Example Usage***
 
-    python train.py --image_dataset_path ./datasets/Images --image_dataset_format png --mask_dataset_path ./datasets/Masks --mask_dataset_format png --height 256 --width 256 --nb_classes 13 --epochs 100 --batch_size 32 --validation_split 0.2 --callbacks True --patience 10
+    python train.py --image_dataset_path ./datasets/OriginalFrames --image_dataset_format png --mask_dataset_path ./datasets/NoColorMapMaskFrames --mask_dataset_format png --height 256 --width 256 --nb_classes 13 --epochs 100 --batch_size 32 --validation_split 0.2 --callbacks True --patience 10
 
 ***Sample Training History***
 
@@ -84,7 +102,7 @@ A sample figure showing model performance in the training process;
 
 ![plot_metrics](https://user-images.githubusercontent.com/99184963/223560057-65dbfb8c-5e47-4537-9cc8-3b84114b0bc1.png)
 
-* As you see, the model training stopped early. It is because the 'callback' argument was set to True, and the model training process was monitored every 10 epoch because 'patience' argument was set to 10. So when there was no any improvement, early stopping worked.
+* As you can see, the model training stopped early. This is because the 'callback' argument was set to True, and the model training process was monitored every 10 epochs because the 'patience' argument was set to 10. So, when there was no improvement for 10 consecutive epochs, early stopping was triggered.
 
 ### *2.4. Predicting New Masked Images*
 
