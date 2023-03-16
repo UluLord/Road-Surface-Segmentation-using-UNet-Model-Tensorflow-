@@ -8,7 +8,7 @@ class UNet:
     This class builds a U-Net model for image segmentation.
     """
     def __init__(self, input_shape, nb_classes, nb_filters, kernel_size, activation, kernel_initializer,
-                 optimizer, learning_rate, beta_1, beta_2, epsilon, momentum, nesterov,rho, rmsprop_momentum):
+                 optimizer, learning_rate, beta_1, beta_2, epsilon, momentum, nesterov, rho, rmsprop_momentum):
         """
         Initialize the class.
 
@@ -29,8 +29,6 @@ class UNet:
         - rho (float): rho for the RMSprop optimizer.
         - rmsprop_momentum (float): rmsprop_momentum for the RMSprop optimizer.
         """
-        super(UNet, self).__init__()
-
         # Input layer
         self.input = tf.keras.layers.Input(shape=input_shape)
 
@@ -65,6 +63,7 @@ class UNet:
         self.model.compile(loss=self.loss, 
                             optimizer=self.optimizer, 
                             metrics=self.metrics)
+    
     @staticmethod
     def encoding_block(input, nb_filters, dropout_rate, max_pooling, kernel_size, activation, kernel_initializer):
         """
@@ -96,16 +95,17 @@ class UNet:
                                       kernel_initializer=kernel_initializer, 
                                       activation=activation)(conv)
 
-        # Apply dropout if dropout_rate is greater than zero.
+        # Apply dropout if the 'dropout_rate' argument is greater than zero.
         if dropout_rate > 0.:
-          conv = tf.keras.layers.Dropout(dropout_rate)(conv)
+           conv = tf.keras.layers.Dropout(dropout_rate)(conv)
 
-        # Apply maximum pooling if max_pooling is True.
+        # Apply maximum pooling if the 'max_pooling' argument is True.
         if max_pooling:
-          next_layer = tf.keras.layers.MaxPooling2D(pool_size=(2,2))(conv)
-        # Otherwise, set next_layer to conv.
+           next_layer = tf.keras.layers.MaxPooling2D(pool_size=(2,2))(conv)
+        
+        # Otherwise, set the next layer to the last convolution layer.
         else:
-          next_layer = conv
+           next_layer = conv
 
         skip_connection = conv
 
@@ -190,6 +190,7 @@ class UNet:
         elif optimizer == "adam":
             # Use the Adam optimizer with specified learning rate, beta_1, beta_2, and epsilon attributes
             model_optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate, beta_1=beta_1, beta_2=beta_2, epsilon=epsilon)
+            
         # Give error if unsupported optimizer type specified.
         else:
             raise ValueError("Unsupported optimizer format: {}".format(optimizer))
@@ -237,9 +238,10 @@ class UNet:
         """
         # Set callbacks
         mycallbacks = None
-        # Check if callbacks is True
+        
+        # Check if the 'callbacks' argument is True
         if callbacks:
-            print("Callbacks enabled. To unenable, please set '--callbacks' argumet as False")
+            print("Callbacks enabled. To disenable, please set the 'callbacks' argument as False")
             print("Early Stopping setting up...")
             # Create a stopper if no any improvement in model.
             early_stopping = tf.keras.callbacks.EarlyStopping(monitor=monitor,
@@ -252,12 +254,13 @@ class UNet:
                                                             monitor=monitor,
                                                             mode=mode,
                                                             save_best_only=True)   
-            # Set callbacks
+            # Set all callbacks
             mycallbacks = [early_stopping, checkpoint]
         
-        # Check if callbacks is False
+        # Check if the 'callbacks' argument is False
         else:
-            print("Callbacks disenabled. To enable, please set '--callbacks' argumet as True")
+            print("Callbacks disenabled. To enable, please set the 'callbacks' argument as True")
+            
         # Train the model
         print("Model training ...")
         history = self.model.fit(train_dataset, batch_size=batch_size,
@@ -266,7 +269,7 @@ class UNet:
                                  callbacks=mycallbacks,
                                  verbose=1)
 
-        print("\nThe training process has been finished.")
+        print("\nThe training process has finished.")
         # If the model was stopped early, load the best weights
         model_epochs = len(history.history[monitor])
         if model_epochs < epochs:
