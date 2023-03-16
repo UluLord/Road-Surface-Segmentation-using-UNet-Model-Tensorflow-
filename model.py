@@ -227,7 +227,6 @@ class UNet:
         - validation_dataset (Tensorflow dataset): the dataset to use for validating the model.
         - epochs (int): number of training epochs.
         - batch_size (int): batch size for the training data.
-        - validation_split (float): fraction of the dataset to use for validation.
         - callbacks (bool): whether to use callbacks during training
         - monitor (str): metric to use for early stopping.
         - mode (str): whether the monitor should be minimized or maximized during training.
