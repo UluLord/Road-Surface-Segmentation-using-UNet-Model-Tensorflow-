@@ -28,7 +28,7 @@ However, the dataset is not included in this repository, but you can download fr
 
 ## **2. Usage**
 
-#### *2.1. Cloning*
+### *2.1. Cloning*
 To use the UNet model in your project for image segmentation, clone this repository using your terminal like following command;
 
     git clone https://github.com/UluLord/Road-Surface-Segmentation-using-UNet-Model-Tensorflow-.git
