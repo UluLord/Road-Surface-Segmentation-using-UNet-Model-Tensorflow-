@@ -158,7 +158,7 @@ To predict new images by using a pre-trained model;
 
 If you use this repository in your work, please consider citing us as the following.
 
-    @misc{ululord2023ululord2023road-surface-segmentation-using-unet-model-tensorflow,
+    @misc{ululord2023road-surface-segmentation-using-unet-model-tensorflow,
 	      author = {Fatih Demir},
           title = {Road Surface Segmentation using UNet Model [Tensorflow]},
           date = {2023-03-08},
